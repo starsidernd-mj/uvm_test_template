@@ -6,5 +6,7 @@ sequencers/Item.sv
 sequencers/Item.svh
 sequencers/gen_item_seq.sv
 sequencers/gen_item_seq.svh
+coverage.sv
+coverage.svh
 env.sv
 env.svh
