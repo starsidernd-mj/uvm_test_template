@@ -105,6 +105,9 @@ compile:
 	vlog $(VLOG_OPTS) $(VLOG_DIRS) $(SRC)
 	
 #run the simulation
+grun:
+	vsim -sv_seed random -do "wave.do" $(TB_TOP) +UVM_TESTNAME=$(TEST) +UVM_VERBOSITY=$(VERBOSE)
+
 run:
 	vsim -c -sv_seed random -do "run -all; exit" $(TB_TOP) +UVM_TESTNAME=$(TEST) +UVM_VERBOSITY=$(VERBOSE)
 

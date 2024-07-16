@@ -1,12 +1,12 @@
 interfaces/des_if.sv
 interfaces/des_if.svh
+interfaces/coverage_vif.sv
+interfaces/coverage_vif.svh
 scoreboards/scoreboard.sv
 scoreboards/scoreboard.svh
 sequencers/Item.sv
 sequencers/Item.svh
 sequencers/gen_item_seq.sv
 sequencers/gen_item_seq.svh
-coverage.sv
-coverage.svh
 env.sv
 env.svh

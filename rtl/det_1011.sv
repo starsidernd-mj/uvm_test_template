@@ -1,9 +1,9 @@
 
 module det_1011 (
-	input clk,
-	input rstn,
-	input in,
-	output out	
+	input  logic clk,
+	input  logic rstn,
+	input  logic in,
+	output logic out	
 );
 	
 	parameter 	IDLE 	= 0,
@@ -16,6 +16,13 @@ module det_1011 (
 	
 	assign out = curr_state == S1011 ? 1 : 0;
 	
+	always @(posedge clk) begin
+		if(!rstn)
+			curr_state <= IDLE;
+		else
+			curr_state <= next_state;
+	end
+	
 	always @(curr_state, in) begin
 		case(curr_state)
 			IDLE : begin
@@ -24,8 +31,8 @@ module det_1011 (
 			end
 			
 			S1 : begin
-				if(in) next_state = IDLE;
-				//if(in) next_state = S1;	//fix 1
+				//if(in) next_state = IDLE;
+				if(in) next_state = S1;	//fix 1
 				else next_state = S10;
 			end
 			
@@ -36,15 +43,15 @@ module det_1011 (
 			
 			S101 : begin
 				if(in) next_state = S1011;
-				else next_state = IDLE;
-				//else next_state = S10;	//fix 2
+				//else next_state = IDLE;
+				else next_state = S10;	//fix 2
 			end
 			
 			S1011 : begin
-				next_state = IDLE;
-				//if(in) next_state = S1;	//fix 3
+				//next_state = IDLE;
+				if(in) next_state = S1;	//fix 3
 				//else next_state = IDLE;	//fix 3
-				//else next_state = S10;	//fix 4
+				else next_state = S10;	//fix 4
 			end
 		endcase
 	end

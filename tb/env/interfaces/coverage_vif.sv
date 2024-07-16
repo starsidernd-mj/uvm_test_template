@@ -1,10 +1,16 @@
-`ifndef COVERAGE_SV
-`define COVERAGE_SV
+`ifndef COVERAGE_VIF_SV
+`define COVERAGE_VIF_SV
 
-`include "coverage.svh"
+`include "coverage_vif.svh"
 
-module coverage();
-
+interface coverage_vif (
+	input bit clk,
+	logic rstn,
+	logic in,
+	logic out
+);
+	
+	
 	typedef struct {
 		int success = 0;
 		int fail = 0;
@@ -18,7 +24,7 @@ module coverage();
 	initial begin
 		assertions = '{
 			"assertion_sysclk"        : '{0, 0, 0, 0, {}, ""},
-			"assertion_REQ_pg_n"      : '{0, 0, 0, 0, {}, ""}
+			"assertion_REQ_valid"     : '{0, 0, 0, 0, {}, ""}
 		};
 	end
 	
@@ -50,25 +56,27 @@ module coverage();
 	//====================================================
 	//  Verify something
 	//====================================================
-
-	/*property p_get_some_mode (bit disable_chk=0, logic fp, logic pgn);
-		disable iff(disable_chk)
-		($rose(fp), incr_pot("assertion_REQ_pg_n"), punch_time("assertion_REQ_pg_n", $time)) |=> ##[0:$] pgn;
+	
+	property p_get_valid (bit disable_chk=0, logic fp, logic gp);
+		fp |=> gp;
 	endproperty
 	
-	assertion_REQ_pg_n: assert property (@ (posedge DUT.clk) p_get_some_mode (
-		.disable_chk(u_my_module_init_if.exp_fail),
-		.fp(DUT.i_fp_n),
-		.pgn(DUT.o_pg_n)
+	assertion_REQ_valid: assert property (@ (posedge DUT.clk) p_get_valid (
+		//.disable_chk(u_my_module_init_if.exp_fail),
+		.disable_chk(1'b0),
+		.fp(in),
+		.gp(out)
 	)) begin
 		`uvm_info("assertion_REQ_pg_n", {"Assertion passed"}, UVM_HIGH)
 		assertions["assertion_REQ_pg_n"].success++;
 	end else begin
 		`uvm_error("assertion_REQ_pg_n", "Assertion failed")
 		assertions["assertion_REQ_pg_n"].fail++;
-	end*/
-
-endmodule 
+	end
+	
+	
+	
+	
+endinterface
 
 `endif
-

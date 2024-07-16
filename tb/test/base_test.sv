@@ -14,6 +14,7 @@ class base_test extends uvm_test;
 	bit[`LENGTH-1:0] pattern = 4'b1011;
 	gen_item_seq seq;
 	virtual des_if vif;
+	virtual coverage_vif cov_vif;
 	
 	virtual function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
@@ -26,6 +27,12 @@ class base_test extends uvm_test;
 			`uvm_fatal("TEST", "Did not get vif")
 		`uvm_info("TEST", "Got vif", UVM_LOW)
 		uvm_config_db#(virtual des_if)::set(this, "e0.a0.*", "des_vif", vif);
+		
+		//get virtual if handle from top level for coverage
+		if(!uvm_config_db#(virtual coverage_vif)::get(this, "", "cov_vif", cov_vif))
+			`uvm_fatal("TEST", "Did not get cov_vif")
+		`uvm_info("TEST", "Got cov_vif", UVM_LOW)
+		uvm_config_db#(virtual coverage_vif)::set(this, "*", "cov_vif", cov_vif);
 		
 		//setup pattern queue and place into config db
 		uvm_config_db#(bit[`LENGTH-1:0])::set(this, "*", "ref_pattern", pattern);
@@ -54,6 +61,10 @@ class base_test extends uvm_test;
 		vif.rstn <= 1;
 		repeat(10) @(posedge vif.clk);
 	endtask
+	
+	virtual function void extract_phase(uvm_phase phase);
+		cov_vif.print_complete();
+	endfunction
 	
 endclass
 

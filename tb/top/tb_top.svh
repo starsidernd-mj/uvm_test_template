@@ -10,6 +10,7 @@ import uvm_pkg::*;
 `include "../../rtl/det_1011.sv"
 `include "../test/base_test.sv"
 `include "../test/test_1011.sv"
+`include "../env/coverage/coverage.sv"
 
 `timescale 1ns/1ps
 	
