@@ -19,6 +19,8 @@ class scoreboard extends uvm_scoreboard;
 	virtual function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
 		
+		exp_out = 0;
+		
 		m_analysis_imp = new("m_analysis_imp", this);
 		if(!uvm_config_db#(bit[`LENGTH-1:0])::get(this, "*", "ref_pattern", ref_pattern))
 			`uvm_fatal("SCBD", "Did not get ref_pattern")

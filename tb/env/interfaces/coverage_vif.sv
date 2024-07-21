@@ -49,7 +49,7 @@ interface coverage_vif (
 			// update potential pass rate
 			assertions[key].rate = 100*assertions[key].success/assertions[key].potential;
 			assertions[key].check = (assertions[key].success < assertions[key].potential) ? "Yes" : "";
-			$display("Assertion: %50s, Success: %08d, \tFail: %08d, \tPotential: %08d, \tRate: %8.1f, \tTime markers: %08d, \tCheck?: %s", key, assertions[key].success, assertions[key].fail, assertions[key].potential, assertions[key].rate, assertions[key].start_time.size(), assertions[key].check);
+			$display("Assertion: %30s, Success: %08d, \tFail: %08d, \tPotential: %08d, \tRate: %8.1f, \tTime markers: %08d, \tCheck?: %s", key, assertions[key].success, assertions[key].fail, assertions[key].potential, assertions[key].rate, assertions[key].start_time.size(), assertions[key].check);
 		end
 	endfunction
 	
@@ -58,12 +58,13 @@ interface coverage_vif (
 	//====================================================
 	
 	property p_get_valid (bit disable_chk=0, logic fp, logic gp);
+		disable iff(disable_chk)
 		fp |=> gp;
 	endproperty
 	
 	assertion_REQ_valid: assert property (@ (posedge DUT.clk) p_get_valid (
 		//.disable_chk(u_my_module_init_if.exp_fail),
-		.disable_chk(1'b0),
+		.disable_chk(1'b1),
 		.fp(in),
 		.gp(out)
 	)) begin

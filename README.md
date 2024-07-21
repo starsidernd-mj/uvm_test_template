@@ -14,3 +14,8 @@ make compile
 make run TEST=test_1011 VERBOSE=UVM_HIGH
 ```
 
+To run with a gui:
+```
+make grun TEST=test_1011 VERBOSE=UVM_LOW
+```
+
