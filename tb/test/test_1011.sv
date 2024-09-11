@@ -13,7 +13,7 @@ class test_1011 extends base_test;
 	virtual function void build_phase(uvm_phase phase);
 		pattern = 4'b1011;
 		super.build_phase(phase);
-		seq.randomize() with { num inside {[300:500]}; };
+		void'(seq.randomize() with { num inside {[3000:5000]}; });
 	endfunction
 	
 endclass

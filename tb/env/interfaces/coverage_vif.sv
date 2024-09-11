@@ -57,14 +57,14 @@ interface coverage_vif (
 	//  Verify something
 	//====================================================
 	
-	property p_get_valid (bit disable_chk=0, logic fp, logic gp);
-		disable iff(disable_chk)
+	property p_get_valid (bit disable_chk, logic fp, logic gp);
+		//disable iff(disable_chk)
 		fp |=> gp;
 	endproperty
 	
 	assertion_REQ_valid: assert property (@ (posedge DUT.clk) p_get_valid (
 		//.disable_chk(u_my_module_init_if.exp_fail),
-		.disable_chk(1'b1),
+		.disable_chk('1),
 		.fp(in),
 		.gp(out)
 	)) begin
